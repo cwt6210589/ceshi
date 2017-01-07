@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			/*#box{
+				position: relative;
+				width: 480px;
+				height: 300px;
+				border: 1px solid cadetblue;
+				margin: 100px auto;
+				overflow: hidden;
+			}*/
+		 	#d1 {
+				width: 3360px;
+				height: 300px;
+				position: absolute;
+				text-align: center;
+				top:0px;
+				left: 0px;
+				z-index: -1;
+				transition: left 2s; 
+			}
+			#d1 img{
+				float: left;
+			}
+			#btn{
+				width: 123px;
+				height: 10px;
+				position: absolute;
+				bottom: 40px;
+    				left: 187px;
+				
+			}
+			.a1{
+				border: 1px solid black;
+				width: 10px;
+				height: 10px;
+				border-radius: 50%;
+				float: left;
+				background: black;
+				margin-left: 10px;
+				
+			}
+			.a1:hover{
+				cursor: pointer;
+			}
+			#theright,#theleft{
+				position: absolute;
+				top: 120px;
+				right: 10px;
+				width: 40px;
+				height: 40px;
+				border: 1px solid #EAEAEA;
+				text-align: center;
+				line-height: 40px;
+				font-size: 30px;
+				color: #AAAAAA;
+				background: rgba(244,244,244,0.8);
+			}
+			#theright,#theleft:hover{
+				opacity: 0.6;
+				cursor: pointer;
+			}
+			#theleft{
+				left: 10px;
+			}
+			#on{
+				background: antiquewhite;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="box">
+			<div id="d1" style="left: -480px;">
+				<img src="res/07.jpg" alt=""/>
+				<img src="res/03.jpg" alt=""/>
+				<img src="res/04.jpg" alt=""/>
+				<img src="res/05.jpg" alt=""/>
+				<img src="res/06.jpg" alt=""/>
+				<img src="res/07.jpg" alt=""/>
+				<img src="res/03.jpg" alt=""/>
+			</div>
+			<div id="btn">
+				<span class="a1" index="1" id="on"></span>
+				<span class="a1" index="2"></span>
+				<span class="a1" index="3"></span>
+				<span class="a1" index="4"></span>
+				<span class="a1" index="5"></span>
+			</div>
+			<span id="theright">
+				>
+			</span>
+			<span id="theleft">
+				<
+			</span>
+		</div>
+	</body>
+	<!--轮播的思想就是让一个大的DIV包裹着一个小的DIV（里面包裹着图片） 
+		让小的DIV去往左去调整位置，形成轮播效果
+	-->
+		<script type="text/javascript">
+			var box = document.getElementById("box")
+			var d1 = document.getElementById("d1");
+			var btn = document.getElementById("btn").getElementsByTagName("span");
+			var theRight = document.querySelector("#theright");
+			var theleft = document.querySelector("#theleft");
+			var index = 1;
+			var timer = null;
+			//Run是让点按钮进行随着图片跳动
+			function Run (){
+				for (var i = 0; i < btn.length; i++) {
+					//如果某个按钮有on的话就给他取消
+					if(btn[i].id == "on"){
+						btn[i].id = "";
+					}
+					//再将所调用这个函数的index的值放在btn中
+					btn[index-1].id = "on";
+				}	
+			}
+			//封装成一个函数
+			function Myfunct(inset){
+				//nums 是当触发点击事件时调用这个函数的值传进来，形成的图片的位移量
+					var nums = parseInt(d1.style.left) + inset;
+					d1.style.left = nums + "px";
+				//当位移量大于第一张的时候,就直接跳到最后一张,形成轮播效果
+					if(nums>-480){
+						d1.style.left = -2880+"px"
+				//当位移量小于最后一张的时候，直接跳到第二张
+					}else if (nums<-2880){
+						d1.style.left = -960+"px"
+					}
+			}		
+			//点击右边
+			theRight.onclick = function(){
+					Myfunct(-480);
+				//让圆形按钮能够跟着轮播的效果
+					if(index == 5){
+						index = 1;
+					}else {
+						index += 1;
+					}
+					Run();
+			}
+			//点击左边
+			theleft.onclick = function(){
+					Myfunct(480)
+					if(index == 1){
+						index = 5;
+					}else {
+						index -= 1;
+					}
+					Run();
+			}
+			//让下面的按钮点击能够自动跳到所想要的图片
+			for (var i = 0; i < btn.length; i++) {
+				btn[i].onclick = function(){
+					//当点到有背景色的那张图片时会自动跳出
+					if(this.id == "on"){
+						return;
+					}
+					//获取index的值
+					var Myset = parseInt(this.getAttribute("index"));
+					var key = -480*(Myset-index);
+					index = Myset;
+					Run();
+					Myfunct(key);
+				}			
+			}
+			//让轮播能够自动的播放
+			//当鼠标不在BOX里的时候调用计时器
+			function start(){
+				timer = setInterval(function(){
+					theRight.onclick();
+				},2000)
+			}
+			start();
+			//当鼠标进入BOX的时候停止计时器
+			function stop(){
+				clearInterval(timer);
+			}
+			box.onmousemove = stop;
+			box.onmouseout = start;
+		</script>
+</html>
