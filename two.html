@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>Document</title>
+	<style type="text/css">
+		/*div{
+			width: 100px;
+			height: 100px;
+			background: seagreen;
+			margin:100px auto ;*/
+			/*box-shadow: x, y, 模糊，大小，color*/
+			/*阴影在层次中处于最底层*/
+			/*在布局上不占位置*/
+			/*box-shadow: 0px 0px 40px 30px burlywood;			
+		}*/
+		/*#mutiple{
+			border-radius: 50%;
+			box-shadow: 30px 30px 30px 30px #aaa,-30px 30px 50px 30px coral;	
+		}
+		.fourshadow{
+			box-shadow: 0px -10px 30px 30px #aaa,10px 0px 50px 30px coral,0px 10px 50px 30px chartreuse,-10px 0px 50px 30px blueviolet;	
+		}
+		.insetDemo{
+			内阴影：inset
+				box-shadow: inset 0px 0px 10px 20px aquamarine;	
+		}*/
+		
+		/*带内部阴影效果的实现*/
+		/*在ing标签内部调价内阴影，如果，图片资源不是透明的，
+		 因为图片层次>内阴影层次
+		 怎么样给正常的图片添加内阴影？
+		    1：把img装在一个DIV中 
+		    2：把div上添加box-shadow：inset
+		    3: 给img进行相对定位
+		    4: 让img处于div的下一层*/
+		/*#img1{
+			width: 310px;
+			height: 420px;
+			box-shadow: inset 0 0 30px 10px red;
+			margin: 100px auto;
+			padding: 1px;
+			text-align: center;
+		}
+		#img1 img{
+			z-index: -1;*/
+			/*必须要加定位，不然层次关系不会去下一层*/
+			/*position: relative;
+		}*/
+		/*伪元素实现图片自带内部阴影的效果*/
+		/*#img1{
+			width: 310px;
+			height: 420px;
+			position: relative;
+			margin: 200px auto;
+		}*/
+		/*在div的前面添加一个内部阴影*/
+		/*before的父元素是#img1*/
+		/*#img1:before{
+			before 和 after 必须要有content：""
+			content: "";
+			定位是相对于父元素，不然会脱离文档流
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			box-shadow: inset 0 0 10px 10px chocolate;
+		}*/
+		
+		
+		#lastDiv{
+			width: 500px;
+			height: 300px;
+			background: #ccc;
+			margin: 100px auto;
+			position: relative;
+		}
+		#lastDiv:before,#lastDiv:after{
+			content: "";
+			/*border-bottom: 15px;
+			border-left: 10px;*/
+			bottom: 22px;
+			left: 15px;
+			width: 50%;
+			height: 50px;
+			box-shadow: 0 15px 20px #aaa;
+			transform: rotate(-10deg);
+			position: absolute;
+			z-index:-1;
+		}
+		#lastDiv:after{
+			right: 10px;
+			left: auto;
+			transform: rotate(10deg);
+		}
+	</style>
+</head>
+<body>
+	<div id="demo">
+		
+	</div>
+	<!--阴影的嵌套-->
+	<div id="mutiple">
+		
+	</div>
+	
+	<!--发散四个颜色的阴影-->
+	<div class="fourshadow">
+		
+	</div>
+	
+	<!--内部阴影-->
+	<div class="insetDemo"></div>
+	
+	
+	<!--带内部阴影的Img-->
+	<!--内部阴影图片实现-->
+	<!--<div id="img1">
+		<img src="1.1.jpg"/>
+	</div>-->
+	
+	
+	<!--底部角弯曲效果-->
+		<div id="lastDiv">
+			
+		</div>
+	
+</body>
+</html>
